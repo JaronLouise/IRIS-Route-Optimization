@@ -1,1 +1,22 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder with A* Algorithm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Pathfinder with A* Algorithm</h1>
+    <div class="controls">
+        <button onclick="setMode('start')">Set Start Point</button>
+        <button onclick="setMode('end')">Set End Point</button>
+        <button onclick="setMode('obstacle')">Add Barrier</button>
+        <button onclick="runAStar()">Find Path</button>
+        <button onclick="resetGrid()">Reset Grid</button>
+    </div>
+    <div id="grid-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
