@@ -1,22 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathfinder with A* Algorithm</title>
+    <title>OSRM Routing Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 </head>
 <body>
-    <h1>Pathfinder with A* Algorithm</h1>
+    <div id="map"></div>
     <div class="controls">
-        <button onclick="setMode('start')">Set Start Point</button>
-        <button onclick="setMode('end')">Set End Point</button>
-        <button onclick="setMode('obstacle')">Add Barrier</button>
-        <button onclick="runAStar()">Find Path</button>
-        <button onclick="resetGrid()">Reset Grid</button>
+        <button id="setStart">Set Start Point</button>
+        <button id="setEnd">Set End Point</button>
+        <button id="simulatePath">Simulate Path</button>
+        <button id="resetPoints">Reset Points</button> <!-- New Reset Button -->
     </div>
-    <div id="grid-container"></div>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
