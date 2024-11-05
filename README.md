@@ -13,11 +13,11 @@ I.R.I.S. (Intelligent Route Identification System) is a web application designed
 ## Usage
 1. **Login** to the application using authorized credentials.
 2. **Access the Campus Map**, which displays current emergency routes.
-3. **Select a Destination** for emergency routing, and the application will calculate and display the optimal path using Dijkstra's algorithm.
+3. **Select a Destination** for emergency routing, and the application will calculate and display the optimal path using A* algorithm.
 4. **Follow the Route Guidance** provided by the system to reach the destination quickly.
 
 ## Features
-- **Emergency Route Optimization**: Calculates the shortest and fastest emergency response route based on Dijkstra’s algorithm.
+- **Emergency Route Optimization**: Calculates the shortest and fastest emergency response route based on A* algorithm.
 - **Campus Map Integration**: Interactive, responsive map with real-time route updates.
 - **User Authentication**: Secure login for authorized users.
 - **Data Visualization**: Clear, accessible visuals for route navigation and algorithm progress.
