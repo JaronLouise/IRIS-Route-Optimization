@@ -7,7 +7,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Load the graph data from JSON
 let graphData = null;
-fetch("maldives_roads.json") 
+fetch("maldives_roads.json") // maldives muna for now
     .then(response => response.json())
     .then(data => {
         graphData = data;
