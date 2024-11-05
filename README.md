@@ -4,7 +4,10 @@ I.R.I.S. (Intelligent Route Identification System) is a web application designed
 
 ---
 
-## Getting Started
+## Getting Started 
+1. Download the repository and unzip the files.
+2. Don't forget to unzip the road data (.json) files.
+3. The app is tested using live server extension in vs code.
 <!-- Installation instructions will be addeed here later -->
 
 ## Usage
