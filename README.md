@@ -1,6 +1,6 @@
 # I.R.I.S. (Intelligent Route Identification System)
 
-I.R.I.S. (Intelligent Route Identification System) is a web application designed to optimize emergency response routes within a university campus. By leveraging Dijkstra’s algorithm, the application identifies the fastest routes to emergency locations, enabling quicker response times and improved campus safety.
+I.R.I.S. (Intelligent Route Identification System) is a web application that visualizes the A* algorithm's route optimization on real-world maps, enabling users to input start and end points and observe the pathfinding process in action.
 
 ---
 
