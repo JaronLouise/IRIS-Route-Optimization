@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSRM Routing Example</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <title>A* Path Finder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <body>
     <div id="map"></div>
-    <div class="controls">
-        <button id="setStart">Set Start Point</button>
-        <button id="setEnd">Set End Point</button>
-        <button id="simulatePath">Simulate Path</button>
-        <button id="resetPoints">Reset Points</button> <!-- New Reset Button -->
+    <div id="controls">
+        <button onclick="setPoint('start')">Set Start Point</button>
+        <button onclick="setPoint('end')">Set End Point</button>
+        <button onclick="simulatePath()">Simulate Path</button>
+        <button onclick="resetMarkers()">Reset Points</button>
     </div>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
-    <script src="/scripts/script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
