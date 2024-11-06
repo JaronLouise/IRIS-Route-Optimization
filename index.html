@@ -8,12 +8,40 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <body>
-    <div id="map"></div>
-    <div id="controls">
-        <button onclick="setPoint('start')">Set Start Point</button>
-        <button onclick="setPoint('end')">Set End Point</button>
-        <button onclick="simulatePath()">Simulate Path</button>
-        <button onclick="resetMarkers()">Reset Points</button>
+    <div id="map"></div>    
+    <div class="flex-container">
+        <div class="box box-1">
+            <div class="title"><h3>Set Points</h3></div>
+            <div class="buttons">
+                <button onclick="setPoint('start')">Set Start Point</button>
+                <button onclick="setPoint('end')">Set End Point</button>
+            </div>
+            <br>
+            <div class="action_btns">
+                <button onclick="simulatePath()">Simulate Path</button>
+                <button onclick="resetMarkers()">Reset Points</button>
+            </div>
+        </div>
+        <div class="box box-2">
+            <h3>Legend</h3>
+            <h4> # Shortest Path &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Visited </h4>
+        </div>
+        <div class="box box-3">
+            <h3><b>Directions</b></h3>
+            <p>
+                <!--Mock Data-->
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+                Path<br>
+            </p>
+        </div>
     </div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="scripts.js"></script>
