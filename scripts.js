@@ -1,13 +1,12 @@
-
 // Initialize the map centered on the Maldives
-const map = L.map('map').setView([4.0846355, 73.5107275], 14); // Center on the Maldives coordinates
+const map = L.map('map').setView([4.0846355, 73.5107275], 14);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; OpenStreetMap contributors'
 }).addTo(map);
 
 // Load the graph data from JSON
 let graphData = null;
-fetch("maldives_roads.json") // maldives muna for now
+fetch("maldives_roads.json")
     .then(response => response.json())
     .then(data => {
         graphData = data;
@@ -38,30 +37,22 @@ function resetMarkers() {
     endMarker = null;
 }
 
-function findNearestNode(latlng) {
-    let nearestNode = null;
-    let minDist = Infinity;
-
-    for (const [nodeId, nodeData] of Object.entries(graphData.nodes)) {
-        // Calculate the distance between the node and the clicked location
-        let dist = Math.sqrt(
-            Math.pow(nodeData.lat - latlng.lat, 2) + Math.pow(nodeData.lon - latlng.lng, 2)
-        );
-
-        if (dist < minDist) {
-            nearestNode = nodeId;
-            minDist = dist;
-        }
-    }
-
-    return nearestNode;
-}
-
-// Heuristic function for A*
+// Haversine formula for heuristic function
 function heuristicCostEstimate(nodeA, nodeB) {
     const a = graphData.nodes[nodeA];
     const b = graphData.nodes[nodeB];
-    return Math.sqrt(Math.pow(a.lat - b.lat, 2) + Math.pow(a.lon - b.lon, 2)); 
+    const R = 6371; // Radius of Earth in km
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLon = (b.lon - a.lon) * Math.PI / 180;
+    const lat1 = a.lat * Math.PI / 180;
+    const lat2 = b.lat * Math.PI / 180;
+
+    const sinDlat = Math.sin(dLat / 2);
+    const sinDlon = Math.sin(dLon / 2);
+    const aVal = sinDlat * sinDlat + Math.cos(lat1) * Math.cos(lat2) * sinDlon * sinDlon;
+    const c = 2 * Math.atan2(Math.sqrt(aVal), Math.sqrt(1 - aVal));
+
+    return R * c; // Distance in km
 }
 
 // A* Algorithm Implementation
@@ -89,15 +80,17 @@ function aStarAlgorithm(start, end) {
             fScore[node] < fScore[lowest] ? node : lowest
         );
 
-        console.log("Current node:", current); // Debug: Current node
-        if (current === end) return reconstructPath(cameFrom, current);
+        if (current === end) return reconstructPath(cameFrom, current, gScore[end]);
 
         openSet.delete(current);
 
-        // Filter edges that are connected to the current node
-        for (let edge of graphData.edges.filter(e => e.from === current)) {
-            let neighbor = edge.to;
-            let tentativeGScore = gScore[current] + edge.distance;
+        const neighbors = graphData.edges.filter(
+            e => e.from === current || e.to === current
+        );
+
+        for (let edge of neighbors) {
+            const neighbor = edge.from === current ? edge.to : edge.from;
+            const tentativeGScore = gScore[current] + edge.distance;
 
             if (tentativeGScore < gScore[neighbor]) {
                 cameFrom[neighbor] = current;
@@ -107,35 +100,26 @@ function aStarAlgorithm(start, end) {
                 if (!openSet.has(neighbor)) openSet.add(neighbor);
             }
         }
-
-        // Debug: Log openSet and scores
-        console.log("Open set:", openSet);
-        console.log("gScore:", gScore);
-        console.log("fScore:", fScore);
     }
 
-    console.log("No path found."); // Debug: No path found message
-    return { path: [], cost: Infinity }; // Return empty path if no path found
+    console.log("No path found.");
+    return { path: [], cost: Infinity };
 }
 
-// Reconstruct path after A* completes
-function reconstructPath(cameFrom, current) {
+// Reconstruct path after A* completes and calculate cost correctly
+function reconstructPath(cameFrom, current, totalCost) {
     const totalPath = [current];
-    let cost = 0;
 
     while (cameFrom[current]) {
         current = cameFrom[current];
         totalPath.unshift(current);
     }
 
-    for (let i = 0; i < totalPath.length - 1; i++) {
-        let from = totalPath[i];
-        let to = totalPath[i + 1];
-        let edge = graphData.edges.find(e => e.from === from && e.to === to);
-        if (edge) cost += edge.distance;
-    }
-
-    return { path: totalPath.map(node => [graphData.nodes[node].lat, graphData.nodes[node].lon]), cost };
+    // Map node IDs to coordinates for polyline and return total path with calculated cost
+    return { 
+        path: totalPath.map(node => [graphData.nodes[node].lat, graphData.nodes[node].lon]), 
+        cost: totalCost 
+    };
 }
 
 // Simulate pathfinding
@@ -148,16 +132,34 @@ function simulatePath() {
     let start = findNearestNode(startMarker.getLatLng());
     let end = findNearestNode(endMarker.getLatLng());
 
-    console.log("Start node:", start); // Debug: Start node
-    console.log("End node:", end); // Debug: End node
-
     let pathResult = aStarAlgorithm(start, end);
 
+    // Clear the previous route polyline if it exists
     if (routePolyline) map.removeLayer(routePolyline);
-    routePolyline = L.polyline(pathResult.path, { color: 'blue' }).addTo(map);
-    if (pathResult.path.length === 0) {
-        alert("No valid path found between the selected points.");
-    } else {
+
+    // Display the path as a blue polyline on the map
+    if (pathResult.path.length > 0) {
+        routePolyline = L.polyline(pathResult.path, { color: 'blue' }).addTo(map);
         alert(`Path found! Total distance: ${pathResult.cost.toFixed(2)} km`);
+    } else {
+        alert("No valid path found between the selected points.");
     }
+}
+
+function findNearestNode(latlng) {
+    let nearestNode = null;
+    let minDist = Infinity;
+
+    for (const [nodeId, nodeData] of Object.entries(graphData.nodes)) {
+        let dist = Math.sqrt(
+            Math.pow(nodeData.lat - latlng.lat, 2) + Math.pow(nodeData.lon - latlng.lng, 2)
+        );
+
+        if (dist < minDist) {
+            nearestNode = nodeId;
+            minDist = dist;
+        }
+    }
+
+    return nearestNode;
 }
