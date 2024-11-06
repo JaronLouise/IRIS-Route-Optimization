@@ -1,17 +1,21 @@
+/*lilinisin ko pa ituuu */
+
 #map {
     height: 100vh;
     width: 100%;
 }
 
-#controls {
+.flex-container {
+    margin: 10px;
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 50px; /* Increased left margin for better visibility */
     z-index: 1000;
     display: flex;
-    justify-content: center;
-    flex-direction: row;
-
+    flex-direction: column;
+    gap: 10px;
+    margin-left: auto;
+    /* Removed justify-content and align-items to prevent right alignment */
 }
 
 button {
@@ -19,5 +23,40 @@ button {
     margin: 5px 0;
     font-size: 16px;
     cursor: pointer;
+    width: 150px;
 }
 
+.box {
+    border-radius: 20px;
+    display: flex;
+    background-color: darkgray;
+    width: 350px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    flex-direction: column;
+}
+
+.buttons, .action_btns {
+    display: flex; /* Added display: flex */
+    flex-direction: row;
+    padding: 10px;
+    gap: 10px; /* Added gap for spacing between buttons */
+}
+
+.box-3 {
+    width: 340px;
+    max-height: 400px;      /* Set maximum height instead of fixed height */
+    height: auto;           /* Allow content to determine height up to max-height */
+    overflow-y: auto;       /* Changed to auto so scrollbar only appears when needed */
+    padding: 10px;         /* Add some padding for better appearance */
+}
+
+
+.title-comment {
+    width: 100%;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin: 5px 0;
+}
